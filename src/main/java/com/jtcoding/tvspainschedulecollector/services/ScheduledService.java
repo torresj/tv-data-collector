@@ -16,6 +16,7 @@ public class ScheduledService {
 
     private final TVDataCollectorService tvDataCollectorService;
     private final TVDataPersistService tvDataPersistService;
+    private final MonitoringService monitoringService;
 
     @Scheduled(cron = "0 0 3 * * ?")
     public void scheduledTask() throws IOException {
@@ -24,6 +25,8 @@ public class ScheduledService {
         log.info("[Scheduled task] Data collector process finished");
         log.info("[Scheduled task] Saving data");
         tvDataPersistService.persistChannelsData(channels);
+        monitoringService.setMoviesMetrics();
+        monitoringService.setSeriesMetrics();
         log.info("[Scheduled task] Finishing Scheduled task");
     }
 }

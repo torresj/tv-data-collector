@@ -36,6 +36,8 @@ public class TestController {
     log.info("[Get channels] Data collector process finished");
     log.info("[Get channels] Saving data");
     tvDataPersistService.persistChannelsData(channels);
+    monitoringService.setMoviesMetrics();
+    monitoringService.setSeriesMetrics();
     log.info("[Get channels] Finishing task");
     return ResponseEntity.ok(channels);
   }
