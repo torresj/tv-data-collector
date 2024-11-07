@@ -1,0 +1,7 @@
+#Loggin
+logging:
+  config: classpath:logback-spring-test.xml
+
+tmdb:
+  url: test
+  token: test

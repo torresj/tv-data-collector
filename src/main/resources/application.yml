@@ -1,0 +1,22 @@
+# HTTP Server
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+#Server info
+info:
+  app:
+    name: ${spring.application.name}
+    description: "TV Spain schedule collector"
+    groupId: com.jtcoding
+    artifactId: tv-spain-schedule-collector
+    version: ${APP_VERSION:SNAPSHOT}
+
