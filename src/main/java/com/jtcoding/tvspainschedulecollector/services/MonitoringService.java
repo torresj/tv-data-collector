@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -16,14 +18,10 @@ public class MonitoringService {
     private final MeterRegistry meterRegistry;
 
     public void setMoviesMetrics(){
-        long movies = movieRepository.count();
-        log.info("Movies: {}", movies);
-        meterRegistry.gauge("movies",movies);
+        meterRegistry.gauge("movies",new AtomicLong(movieRepository.count()));
     }
 
     public void setSeriesMetrics(){
-        long series = serieRepository.count();
-        log.info("Serie: {}", series);
-        meterRegistry.gauge("series",series);
+        meterRegistry.gauge("series",new AtomicLong(serieRepository.count()));
     }
 }

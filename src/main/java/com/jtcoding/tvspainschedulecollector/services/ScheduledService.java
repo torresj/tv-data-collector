@@ -21,12 +21,12 @@ public class ScheduledService {
     @Scheduled(cron = "0 0 3 * * ?")
     public void scheduledTask() throws IOException {
         log.info("[Scheduled task] Starting data collector process");
+        monitoringService.setMoviesMetrics();
+        monitoringService.setSeriesMetrics();
         var channels = tvDataCollectorService.processTVData();
         log.info("[Scheduled task] Data collector process finished");
         log.info("[Scheduled task] Saving data");
         tvDataPersistService.persistChannelsData(channels);
-        monitoringService.setMoviesMetrics();
-        monitoringService.setSeriesMetrics();
         log.info("[Scheduled task] Finishing Scheduled task");
     }
 }
