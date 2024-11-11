@@ -17,11 +17,13 @@ public class MonitoringService {
 
     public void setMoviesMetrics(){
         long movies = movieRepository.count();
+        log.info("Movies: {}", movies);
         meterRegistry.gauge("movies",movies);
     }
 
     public void setSeriesMetrics(){
         long series = serieRepository.count();
+        log.info("Serie: {}", series);
         meterRegistry.gauge("series",series);
     }
 }
