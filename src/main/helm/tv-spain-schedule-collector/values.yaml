@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.torresj.com
+  repository: registry.torresj.es
   name: tv-spain-schedule-collector
   version: @project.version@
   pullPolicy: IfNotPresent
