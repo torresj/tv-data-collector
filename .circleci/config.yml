@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Generate revision
           command: |
-            echo 'export REVISION="${CIRCLE_BUILD_NUM}-$(echo -n $CIRCLE_SHA1 | tail -c 8)"' >> $BASH_ENV
+            echo 'export REVISION="${CIRCLE_BUILD_NUM}.$(echo -n $CIRCLE_SHA1 | tail -c 2)"' >> $BASH_ENV
             source $BASH_ENV
       # Login docker registry
       - run:
@@ -50,7 +50,7 @@ jobs:
       # Add chartmuseum repo
       - run:
           name: Add chartmuseum repo
-          command: helm repo add torresj https://charts.torresj.es --username $CHARTS_USER --password $CHARTS_PASSWORD && helm repo update
+          command: helm repo add torresj $CHARTS_URL --username $CHARTS_USER --password $CHARTS_PASSWORD && helm repo update
       # Generate and push chart
       - run:
           name: Push chart
@@ -58,11 +58,11 @@ jobs:
       # Install chart
       - run:
           name: Install chart
-          command: helm upgrade tv-spain-schedule-collector helm/tv-spain-schedule-collector -n tvschedule --set db.db_user=$DB_USER,db.db_name=$DB_NAME,db.db_password=$DB_PASSWORD,tmdb.url=$TMDB_URL,tmdb.token=$TMDB_TOKEN --install --kubeconfig=helm/kubeconfig
+          command: helm upgrade tv-spain-schedule-collector helm/tv-spain-schedule-collector -n nsqv --set db.db_user=$DB_USER,db.db_name=$DB_NAME,db.db_password=$DB_PASSWORD,tmdb.url=$TMDB_URL,tmdb.token=$TMDB_TOKEN --install --kubeconfig=helm/kubeconfig
       # Check deployment
       - run:
           name: Check deployment
-          command: kubectl rollout status deployment tv-spain-schedule-collector --timeout=180s -n tvschedule --kubeconfig=helm/kubeconfig
+          command: kubectl rollout status deployment tv-spain-schedule-collector --timeout=180s -n nsqv --kubeconfig=helm/kubeconfig
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -72,9 +72,9 @@ workflows:
     jobs:
       - build:
           context:
-            - "Kubernetes cluster"
+            - "Kubernetes cluster v2"
       - deploy:
           context:
-            - "Kubernetes cluster"
+            - "Kubernetes cluster v2"
           requires:
             - build

@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: tv-spain-schedule-collector-pvc
 spec:
-  storageClassName: nfs-storageclass
+  storageClassName: nfs-client
   accessModes:
     - ReadWriteMany
   resources:
